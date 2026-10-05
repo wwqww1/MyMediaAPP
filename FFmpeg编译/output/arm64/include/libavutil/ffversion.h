@@ -1,0 +1,1 @@
+#define FFMPEG_VERSION "7.0"

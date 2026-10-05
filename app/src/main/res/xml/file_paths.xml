@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="downloads"
+        path="Download/我的多媒体" />
+    <external-path
+        name="external_files"
+        path="." />
+    <!-- v3.2: 输出目录为 app 私有外部目录（Android 11+ 公共目录不可写） -->
+    <external-files-path
+        name="output_dir"
+        path="." />
+</paths>

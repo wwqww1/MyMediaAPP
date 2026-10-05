@@ -1,0 +1,20 @@
+# ── Gradle / 构建产物 ──
+.gradle/
+build/
+app/build/
+captures/
+.cxx/
+.externalNativeBuild/
+
+# ── 本地配置与签名（含口令，绝不能提交）──
+local.properties
+*.jks
+*.keystore
+
+# ── IDE ──
+.idea/
+*.iml
+.DS_Store
+
+# ── 日志 ──
+*.log
