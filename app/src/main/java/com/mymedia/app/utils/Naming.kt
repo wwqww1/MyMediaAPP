@@ -1,3 +1,17 @@
+/*
+ * 我的多媒体 - MyMediaApp
+ * Copyright (C) 2026  谭水军
+ *
+ * 本程序是自由软件：在 GNU GPL v3 或（您选择）更高版本下发布。
+ * 详细信息请参阅 GNU General Public License。
+ *
+ * 本程序按"原样"提供，不提供任何明示或暗示的保证。
+ * 详见 GNU General Public License。
+ *
+ * 您应已收到 GNU General Public License 的副本；
+ * 如果没有，请参阅 <https://www.gnu.org/licenses/>。
+ */
+
 package com.mymedia.app.utils
 
 import com.mymedia.app.model.TaskType
