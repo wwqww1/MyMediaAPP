@@ -4,7 +4,8 @@
 
 > ## ⚠️ 关于这个项目
 > 本项目使用 Kotlin + Jetpack Compose 开发，核心音视频处理基于 FFmpeg。
-> 欢迎提 Issue 交流。
+> 需要说明的是：本人**不善于开发 APP**，本项目的**代码主要由 DeepSeek 完成**——我负责提需求、定方案和测试，代码是借助 DeepSeek 在 Android Studio 里写出来并反复调试的。
+> 代码水平有限，欢迎提 Issue 交流指正。
 
 ## 功能
 
@@ -35,7 +36,7 @@
 | UI | Kotlin + Jetpack Compose（Material 3） |
 | 硬编解码 | Android MediaCodec（H.264 / H.265） |
 | 软编软解 | FFmpeg 7.0（JNI + C，`app/src/main/cpp/ffmpeg_jni.c`） |
-| 音频编码 | FFmpeg 原生 aac / wav / flac + libmp3lame 3.100（GPL） |
+| 音频编码 | FFmpeg 原生 aac / wav / flac + libmp3lame 3.100 |
 | 构建 | AGP 8.2.0 / Kotlin 1.9.20 / CMake 3.22.1 / Gradle 8.5 |
 
 - `minSdk 21`（Android 5.0）/ `targetSdk 34`
@@ -58,15 +59,15 @@ MyMediaApp/
 │     ├─ cpp/                       ffmpeg_jni.c + CMakeLists.txt
 │     └─ res/                       图标与资源
 ├─ FFmpeg编译/
-│  └─ output/arm64/                 预编译的 FFmpeg 7.0 + libmp3lame 3.100（arm64 lib/*.so + include/）
-│  └─ CMakeLists.txt                FFmpeg 交叉编译构建脚本（已在仓库）
-│  └─ build.sh                      编译脚本（已在仓库）
-│  └─ 源码需自行下载，见下方「FFmpeg 源码说明」
+│  ├─ output/arm64/                 预编译好的 FFmpeg 7.0 + libmp3lame 3.100（lib/*.so + include/）
+│  └─ build.sh                      重新编译 FFmpeg 用的脚本（用法见文件内注释）
 ├─ gradle/wrapper/
 ├─ build.gradle.kts
 ├─ settings.gradle.kts
+├─ gradle.properties
 ├─ gradlew
-└─ APK/                             打包签名好的 APK 放这里（见 APK/README.md）
+├─ LICENSE                          GPL-3.0 全文
+└─ APK/                             关于 APK 下载（走 Releases）
 ```
 
 ## 怎么构建
@@ -76,33 +77,7 @@ MyMediaApp/
 3. `Build → Build APK(s)`，或 `Build → Generate Signed APK / Bundle`
 
 FFmpeg 已经编译好放在 `FFmpeg编译/output/arm64/`，`CMakeLists.txt` 会自动探测，**不需要自己编译 FFmpeg**。
-
-## 第三方开源组件声明
-
-本项目使用了以下第三方开源组件，按 GPL-3.0 协议要求声明如下：
-
-### FFmpeg
-
-本应用使用了 FFmpeg 7.0（"Dijkstra"）及其部分库：
-
-- 版本：7.0（发布代号 Dijkstra）
-- 源码：https://ffmpeg.org/releases/ffmpeg-7.0.tar.xz
-- 版权：Copyright (c) FFmpeg developers (https://ffmpeg.org/)
-- 许可证：GNU General Public License v2 or later
-  （本项目编译 FFmpeg 时启用了 --enable-gpl，故许可证为 GPL v2+；
-  完整的 GPL 许可文本见本仓库 LICENSE 文件）
-- 本项目使用的库版本：libavutil 59.8.100 / libavcodec 61.3.100 /
-  libavformat 61.1.100 / libavfilter 10.1.100 /
-  libswresample 5.1.100 / libswscale 8.1.100
-- FFmpeg 7.0 官方源码完整副本见本项目 Releases 页面的附件。
-
-### libmp3lame
-
-- 版本：LAME 3.100
-- 源码：https://lame.sourceforge.io/
-- 许可证：GNU Lesser General Public License v2.1 or later
-
-> **合规说明：** 本项目采用 GPL-3.0，GPL-3.0 与 FFmpeg 的 GPL v2+ 兼容，libmp3lame 的 LGPL v2.1 链接进 GPL 项目也符合许可要求。
+想自己重编的话见 `FFmpeg编译/build.sh`（FFmpeg 源码见下面「第三方开源组件声明」）。
 
 ### 关于签名
 
@@ -138,25 +113,52 @@ FFmpeg 7.0 + libmp3lame 3.100：
 - 文件读写走系统文件选择器（SAF），不需要读媒体库权限；只有 Android 9 及以下写入公共目录才用 `WRITE_EXTERNAL_STORAGE`
 - 首次启动会让选一个输出目录，之后所有产出都存那里
 
+## 第三方开源组件声明
+
+本项目使用了以下第三方开源组件，按 GPL-3.0 的要求声明如下：
+
+### FFmpeg
+
+- 版本：**7.0**（发布代号 Dijkstra）
+- 版权：Copyright (c) FFmpeg developers — https://ffmpeg.org/
+- 许可证：**GNU General Public License v2 or later**
+  （本项目编译 FFmpeg 时启用了 `--enable-gpl`，因此 FFmpeg 的许可证为 GPL v2+）
+- 源码：https://ffmpeg.org/releases/ffmpeg-7.0.tar.xz
+- 本项目所用版本的源码完整副本：见本项目 **Releases** 页面的附件 `ffmpeg-7.0-source.zip`
+- 本项目使用的库版本：libavutil 59.8.100 / libavcodec 61.3.100 / libavformat 61.1.100 / libavfilter 10.1.100 / libswresample 5.1.100 / libswscale 8.1.100
+- 实际使用的编译配置：见 `FFmpeg编译/build.sh`
+
+### libmp3lame
+
+- 版本：**LAME 3.100**
+- 版权：Copyright (c) The LAME Project
+- 许可证：**GNU Lesser General Public License v2.1 or later**
+- 源码：https://lame.sourceforge.io/
+
+> **合规说明**：本项目采用 GPL-3.0。GPL-3.0 与 FFmpeg 的 GPL v2+ 兼容；libmp3lame 的 LGPL v2.1+ 链接进 GPL 项目也符合许可要求。
+
 ## 开源协议
 
 本项目采用 **GNU General Public License v3 (GPL-3.0)** 开源。
 
-- **版权人：** 谈水君
-- **许可证：** [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
-- **协议全文：** 见 [LICENSE](LICENSE)
+- **版权人**：谈水君
+- **许可证**：[GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+- **协议全文**：见仓库根目录 [LICENSE](LICENSE)
 
 ### 你可以
+
 - 自由使用、修改、分发本项目源码
-- 商业使用（需开源修改后的完整源码）
+- 商业使用（但需开源修改后的完整源码）
 
 ### 你必须
-- 在分发时保留开源协议和版权声明
+
+- 分发时保留开源协议和版权声明
 - 在修改后的文件中注明做了哪些改动
 - 在基于本项目修改的成品中注明使用了本项目
 
 ### 你不能
+
 - 将本项目闭源商业分发
 - 在盈利产品中直接使用而不开源
 
-> 💡 **GPL 的核心：** 如果你用 GPL 代码开发了自己的产品并发布，必须也用 GPL 开源你的产品源码。这是保护开源、维护社区的原则。
+> 💡 **GPL 的核心**：如果你用 GPL 代码开发了自己的产品并发布，必须也用 GPL 开源你的产品源码。
