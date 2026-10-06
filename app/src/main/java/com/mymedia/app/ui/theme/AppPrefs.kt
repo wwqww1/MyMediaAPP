@@ -1,6 +1,6 @@
 /*
  * 我的多媒体 - MyMediaApp
- * Copyright (C) 2026  谭水军
+ * Copyright (C) 2026  谈水君
  *
  * 本程序是自由软件：在 GNU GPL v3 或（您选择）更高版本下发布。
  * 详细信息请参阅 GNU General Public License。

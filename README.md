@@ -113,7 +113,7 @@ FFmpeg 7.0 + libmp3lame 3.100：
 
 本项目采用 **GNU General Public License v3 (GPL-3.0)** 开源。
 
-- **版权人：** 谭水军
+- **版权人：** 谈水君
 - **许可证：** [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
 - **协议全文：** 见 [LICENSE](LICENSE)
 
