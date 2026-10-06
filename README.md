@@ -35,7 +35,7 @@
 | UI | Kotlin + Jetpack Compose（Material 3） |
 | 硬编解码 | Android MediaCodec（H.264 / H.265） |
 | 软编软解 | FFmpeg 7.0（JNI + C，`app/src/main/cpp/ffmpeg_jni.c`） |
-| 音频编码 | FFmpeg 原生 aac / wav / flac + libmp3lame 3.100 |
+| 音频编码 | FFmpeg 原生 aac / wav / flac + libmp3lame 3.100（GPL） |
 | 构建 | AGP 8.2.0 / Kotlin 1.9.20 / CMake 3.22.1 / Gradle 8.5 |
 
 - `minSdk 21`（Android 5.0）/ `targetSdk 34`
@@ -58,7 +58,10 @@ MyMediaApp/
 │     ├─ cpp/                       ffmpeg_jni.c + CMakeLists.txt
 │     └─ res/                       图标与资源
 ├─ FFmpeg编译/
-│  └─ output/arm64/                 预编译好的 FFmpeg 7.0（include 头文件 + lib/*.so）
+│  └─ output/arm64/                 预编译的 FFmpeg 7.0 + libmp3lame 3.100（arm64 lib/*.so + include/）
+│  └─ CMakeLists.txt                FFmpeg 交叉编译构建脚本（已在仓库）
+│  └─ build.sh                      编译脚本（已在仓库）
+│  └─ 源码需自行下载，见下方「FFmpeg 源码说明」
 ├─ gradle/wrapper/
 ├─ build.gradle.kts
 ├─ settings.gradle.kts
@@ -73,7 +76,33 @@ MyMediaApp/
 3. `Build → Build APK(s)`，或 `Build → Generate Signed APK / Bundle`
 
 FFmpeg 已经编译好放在 `FFmpeg编译/output/arm64/`，`CMakeLists.txt` 会自动探测，**不需要自己编译 FFmpeg**。
-（`output/arm64/include/` 是编译 `ffmpeg_jni.c` 要用的头文件，`lib/*.so` 是链接并打进 APK 的库，两个都留着。）
+
+## 第三方开源组件声明
+
+本项目使用了以下第三方开源组件，按 GPL-3.0 协议要求声明如下：
+
+### FFmpeg
+
+本应用使用了 FFmpeg 7.0（"Dijkstra"）及其部分库：
+
+- 版本：7.0（发布代号 Dijkstra）
+- 源码：https://ffmpeg.org/releases/ffmpeg-7.0.tar.xz
+- 版权：Copyright (c) FFmpeg developers (https://ffmpeg.org/)
+- 许可证：GNU General Public License v2 or later
+  （本项目编译 FFmpeg 时启用了 --enable-gpl，故许可证为 GPL v2+；
+  完整的 GPL 许可文本见本仓库 LICENSE 文件）
+- 本项目使用的库版本：libavutil 59.8.100 / libavcodec 61.3.100 /
+  libavformat 61.1.100 / libavfilter 10.1.100 /
+  libswresample 5.1.100 / libswscale 8.1.100
+- FFmpeg 7.0 官方源码完整副本见本项目 Releases 页面的附件。
+
+### libmp3lame
+
+- 版本：LAME 3.100
+- 源码：https://lame.sourceforge.io/
+- 许可证：GNU Lesser General Public License v2.1 or later
+
+> **合规说明：** 本项目采用 GPL-3.0，GPL-3.0 与 FFmpeg 的 GPL v2+ 兼容，libmp3lame 的 LGPL v2.1 链接进 GPL 项目也符合许可要求。
 
 ### 关于签名
 
